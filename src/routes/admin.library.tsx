@@ -9,20 +9,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { PageFade } from "@/components/Reveal";
 import {
   adminCatalogStore,
-  uid,
   useAdminCatalog,
   type AdminAccessory,
   type AdminBackboard,
-  type AdminBackingColor,
+  type AdminBacking,
   type AdminCatalogState,
   type AdminColor,
   type AdminFont,
   type AdminShape,
   type AdminTier,
 } from "@/lib/admin";
+import { uid } from "@/lib/neon/catalog";
 
 export const Route = createFileRoute("/admin/library")({
   head: () => ({
@@ -380,7 +381,7 @@ function BackboardsTab({ backboards }: { backboards: AdminBackboard[] }) {
 
 /* ---------------- Backing colors ---------------- */
 
-function BackingTab({ backings }: { backings: AdminBackingColor[] }) {
+function BackingTab({ backings }: { backings: AdminBacking[] }) {
   const [form, setForm] = useState({ name: "", hex: "#1b1b22", surcharge: "0" });
 
   function add() {

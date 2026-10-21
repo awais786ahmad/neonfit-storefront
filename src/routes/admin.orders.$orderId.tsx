@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Boxes, Check, ImageCheck, PackageCheck, Save, Truck } from "lucide-react";
+import { ArrowLeft, BadgeCheck, Boxes, Check, PackageCheck, Save, Truck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -121,7 +121,7 @@ function OrderDetail() {
         <section className="space-y-4">
           <div className="rounded-3xl border border-border bg-card p-5">
             <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
-              <ImageCheck className="h-4 w-4 text-primary" /> Artwork review
+              <BadgeCheck className="h-4 w-4 text-primary" /> Artwork review
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               {order.items.some((i) => i.design.uploadedImage)
@@ -196,7 +196,7 @@ function OrderDetail() {
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      patchOrder(order.id, { tracking: tracking.trim() || undefined });
+                      patchOrder(order.id, tracking.trim() ? { tracking: tracking.trim() } : {});
                       if (tracking.trim() && order.status === "Ready to Ship") setOrderStatus(order.id, "Shipped");
                       toast.success("Tracking saved");
                     }}
@@ -220,7 +220,7 @@ function OrderDetail() {
                   size="sm"
                   className="mt-2"
                   onClick={() => {
-                    patchOrder(order.id, { adminNotes: notes.trim() || undefined });
+                    patchOrder(order.id, notes.trim() ? { adminNotes: notes.trim() } : {});
                     toast.success("Notes saved");
                   }}
                 >
