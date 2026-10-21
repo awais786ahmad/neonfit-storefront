@@ -7,7 +7,7 @@ import {
   getShape,
   getTier,
 } from "./catalog";
-import { getPricingConfig } from "../admin";
+import { getPricingConfig } from "../admin-catalog";
 import type { DesignPrice, NeonDesign, PriceLine } from "./types";
 
 /**

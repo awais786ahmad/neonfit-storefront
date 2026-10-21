@@ -1,13 +1,22 @@
 import type { DesignElement, NeonDesign } from "./types";
-import {
-  lookupAccessory,
-  lookupBackboard,
-  lookupBackingColor,
-  lookupColor,
-  lookupFont,
-  lookupShape,
-  lookupTier,
-} from "../admin";
+
+/* Admin-managed catalog hook-up: src/lib/admin-catalog.ts registers its
+ * lookups here at module init, keeping catalog free of import cycles. */
+type AdminLookup<T> = (id: string) => T | undefined;
+
+let adminLookups: {
+  color: AdminLookup<NeonColor>;
+  font: AdminLookup<NeonFont>;
+  shape: AdminLookup<NeonShape>;
+  tier: AdminLookup<SizeTier>;
+  backboard: AdminLookup<Backboard>;
+  backingColor: AdminLookup<BackingColor>;
+  accessory: AdminLookup<Accessory>;
+} | null = null;
+
+export function registerAdminLookups(lookups: NonNullable<typeof adminLookups>) {
+  adminLookups = lookups;
+}
 
 /* ---------------- Neon colors ---------------- */
 
@@ -34,7 +43,7 @@ export const NEON_COLORS: NeonColor[] = [
  * falling back to the built-in defaults above. */
 
 export function getColor(id: string): NeonColor {
-  return lookupColor(id) ?? NEON_COLORS[0]!;
+  return adminLookups?.color(id) ?? NEON_COLORS[0]!;
 }
 
 /** Core (tube center) color — mixed toward white like a lit LED tube. */
@@ -71,7 +80,7 @@ export const NEON_FONTS: NeonFont[] = [
 ];
 
 export function getFont(id: string): NeonFont {
-  return lookupFont(id) ?? NEON_FONTS[0]!;
+  return adminLookups?.font(id) ?? NEON_FONTS[0]!;
 }
 
 /* ---------------- Shapes ---------------- */
@@ -175,7 +184,7 @@ export const NEON_SHAPES: NeonShape[] = [
 ];
 
 export function getShape(id: string): NeonShape {
-  return lookupShape(id) ?? NEON_SHAPES[0]!;
+  return adminLookups?.shape(id) ?? NEON_SHAPES[0]!;
 }
 
 /* ---------------- Size tiers ---------------- */
@@ -197,7 +206,7 @@ export const SIZE_TIERS: SizeTier[] = [
 ];
 
 export function getTier(id: string): SizeTier {
-  return lookupTier(id) ?? SIZE_TIERS[1]!;
+  return adminLookups?.tier(id) ?? SIZE_TIERS[1]!;
 }
 
 /* ---------------- Backboards ---------------- */
@@ -219,7 +228,7 @@ export const BACKBOARDS: Backboard[] = [
 ];
 
 export function getBackboard(id: string): Backboard {
-  return lookupBackboard(id) ?? BACKBOARDS[0]!;
+  return adminLookups?.backboard(id) ?? BACKBOARDS[0]!;
 }
 
 export interface BackingColor {
@@ -237,7 +246,7 @@ export const BACKING_COLORS: BackingColor[] = [
 ];
 
 export function getBackingColor(id: string): BackingColor {
-  return lookupBackingColor(id) ?? BACKING_COLORS[0]!;
+  return adminLookups?.backingColor(id) ?? BACKING_COLORS[0]!;
 }
 
 /* ---------------- Accessories ---------------- */
@@ -256,7 +265,7 @@ export const ACCESSORIES: Accessory[] = [
 ];
 
 export function getAccessory(id: string): Accessory | undefined {
-  return lookupAccessory(id);
+  return adminLookups?.accessory(id);
 }
 
 /* ---------------- Scenes ---------------- */

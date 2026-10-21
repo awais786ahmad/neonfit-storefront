@@ -1,6 +1,6 @@
 import type { DesignElement, NeonDesign } from "./types";
 import { cloneDesign, makeShapeElement, makeTextElement } from "./catalog";
-import { adminTemplateStore, builtinDisabledStore } from "../admin";
+import { adminTemplateStore, builtinDisabledStore } from "../admin-catalog";
 
 export interface Template {
   slug: string;
