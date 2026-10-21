@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowRight, Check, HeartHandshake, RotateCcw, X } from "lucide-react";
+import { Check, HeartHandshake, RotateCcw, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -160,6 +160,3 @@ function ReturnCard({ req }: { req: ReturnRequest }) {
     </div>
   );
 }
-
-// keep ArrowRight import used if needed later
-void ArrowRight;
